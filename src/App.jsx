@@ -1,11 +1,12 @@
 import './App.css'
+import MovieTab from "./components/MovieTab"
 
 function App() {
 
   return (
     <>
 
-    <h1>Hello World!</h1>
+    <MovieTab/>
 
     </>
   )
