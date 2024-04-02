@@ -1,4 +1,4 @@
-import './css/moviecard.css'
+import './css/infocard.css'
 
 const MovieCard = (props) => {
 
@@ -13,12 +13,9 @@ const MovieCard = (props) => {
         <p>{props.content.director.name}</p>
         <p className='card-text'>{props.content.length}</p>
 
-
         </div>
 
-
     )
-
 
 }
 

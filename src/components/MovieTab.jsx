@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import MovieCard from "./MovieCard";
-import './css/movietab.css'
+import './css/tab.css'
 
 const MovieTab = () => {
 
@@ -33,8 +33,9 @@ const MovieTab = () => {
 
         });
 
+        //suoritetaan kaikki taulukon lupaukset
         Promise.all(moviesWithDirector)
-          //tämä lupaus suoritetaan kun kaikki taulukon lupaukset on täytetty
+          //tämä lupaus suoritetaan kun kaikki taulukon lupaukset on suoritettu
           .then(updatedMovies => setMovies(updatedMovies))
           .catch(err => console.log(err))
           .finally(() => setLoading(false));
@@ -43,7 +44,8 @@ const MovieTab = () => {
 
   };
 
-  //tämä funktio hakee jokaisen elokuvan ohjaajan tiedot spring data rest apista ja tallentaa ne jokaiseen elokuva olioon
+  /* tämä funktio palauttaa lupauksen, joka hakee elokuvan ohjaajan tiedot spring data rest apista, 
+  tallentaa ne elokuva olioon ja palauttaa päivitetyn olion */
   const fetchMovieDirector = (movie) => {
 
     return fetch(movie._links.director.href)
@@ -79,7 +81,7 @@ const MovieTab = () => {
 
       <h1>Movies I have Watched</h1>
 
-      <div className="movieContainer">
+      <div className="contentContainer">
 
         {
 
