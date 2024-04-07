@@ -7,71 +7,31 @@ const MovieTab = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState([true]);
 
-  //haetaan elokuvien tiedot spring data rest apista
-  const fetchMovies = () => {
+  useEffect(() => {
 
-    fetch('http://localhost:8080/api/movies')
+    const fetchMovies = async () => {
 
-      .then(response => {
+      try {
 
-        if (!response.ok) {
+        const response = await fetch("http://localhost:8080/api/movies");
 
-          throw new Error("Error fetching data " + response.statusText);
+        const data = await response.json();
 
-        }
+        setMovies(data);
 
-        return response.json();
+      }
 
-      })
+      catch (error) {
 
-      .then(responseData => {
+        console.error(error);
 
-        //tässä on taulukko lupauksia
-        const moviesWithDirector = responseData._embedded.movies.map(movie => {
+      }
 
-          return fetchMovieDirector(movie);
+    }
 
-        });
+    fetchMovies();
 
-        //suoritetaan kaikki taulukon lupaukset
-        Promise.all(moviesWithDirector)
-          //tämä lupaus suoritetaan kun kaikki taulukon lupaukset on suoritettu
-          .then(updatedMovies => setMovies(updatedMovies))
-          .catch(err => console.log(err))
-          .finally(() => setLoading(false));
-
-      })
-
-  };
-
-  /* tämä funktio palauttaa lupauksen, joka hakee elokuvan ohjaajan tiedot spring data rest apista, 
-  tallentaa ne elokuva olioon ja palauttaa päivitetyn olion */
-  const fetchMovieDirector = (movie) => {
-
-    return fetch(movie._links.director.href)
-
-      .then(response => {
-
-        if (!response.ok) {
-
-          throw new Error("Error fetching director data " + response.statusText);
-
-        }
-
-        return response.json();
-
-      })
-
-      .then(directorData => {
-
-        movie.director = directorData;
-        return movie;
-
-      })
-
-      .catch(err => console.log(err));
-
-  };
+  }, [])
 
   const sortMovies = (event) => {
 
@@ -106,8 +66,6 @@ const MovieTab = () => {
     }
 
   }
-
-  useEffect(() => fetchMovies(), [])
 
   return (
 

@@ -7,33 +7,31 @@ const DirectorTab = () => {
     const [directors, setDirectors] = useState([]);
     const [loading, setLoading] = useState([true]);
 
-    //haetaan ohjaajien tiedot spring data rest apista
-    const fetchDirectors = () => {
+    useEffect(() => {
 
-        fetch('http://localhost:8080/api/directors')
-
-            .then(response => {
-
-                if (!response.ok) {
-
-                    throw new Error("Error fetching data " + response.statusText);
-
-                }
-
-                return response.json();
-
-            })
-            .then(responseData => {
-                
-                setDirectors(responseData._embedded.directors);
-
-            })
-            .catch(err => console.log(err))
-            .finally(() => setLoading(false));
-
-    };
-
-    useEffect(() => fetchDirectors(), [])
+        const fetchDirectors = async () => {
+    
+          try {
+    
+            const response = await fetch("http://localhost:8080/api/directors");
+    
+            const data = await response.json();
+    
+            setDirectors(data);
+    
+          }
+    
+          catch (error) {
+    
+            console.error(error);
+    
+          }
+    
+        }
+    
+        fetchDirectors();
+    
+      }, [])
 
     return (
 

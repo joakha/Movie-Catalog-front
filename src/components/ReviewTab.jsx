@@ -7,73 +7,31 @@ const ReviewTab = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState([true]);
 
-  //haetaan elokuvien arvostelut spring data rest apista
-  const fetchReviews = () => {
+  useEffect(() => {
 
-    fetch('http://localhost:8080/api/reviews')
+    const fetchReviews = async () => {
 
-      .then(response => {
+      try {
 
-        if (!response.ok) {
+        const response = await fetch("http://localhost:8080/api/reviews");
 
-          throw new Error("Error fetching data " + response.statusText);
+        const data = await response.json();
 
-        }
+        setReviews(data);
 
-        return response.json();
+      }
 
-      })
+      catch (error) {
 
-      .then(responseData => {
+        console.error(error);
 
-        //tässä on taulukko lupauksia
-        const reviewsWithMovie = responseData._embedded.reviews.map(review => {
+      }
 
-          return fetchReviewMovie(review);
+    }
 
-        });
+    fetchReviews();
 
-        //suoritetaan kaikki taulukon lupaukset
-        Promise.all(reviewsWithMovie)
-          //tämä lupaus suoritetaan kun kaikki taulukon lupaukset on suoritettu
-          .then(updatedReviews => setReviews(updatedReviews))
-          .catch(err => console.log(err))
-          .finally(() => setLoading(false));
-
-      })
-
-  };
-
-  /* tämä funktio palauttaa lupauksen, joka hakee arvostelun elokuvan tiedot spring data rest apista, 
-  tallentaa ne arvostelu olioon ja palauttaa päivitetyn olion */
-  const fetchReviewMovie = (review) => {
-
-    return fetch(review._links.movie.href)
-
-      .then(response => {
-
-        if (!response.ok) {
-
-          throw new Error("Error fetching movie data " + response.statusText);
-
-        }
-
-        return response.json();
-
-      })
-
-      .then(movieData => {
-
-        review.movie = movieData;
-        return review;
-
-      })
-
-      .catch(err => console.log(err));
-
-  };
-
-  useEffect(() => fetchReviews(), [])
+  }, [])
 
   return (
 
