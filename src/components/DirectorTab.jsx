@@ -4,56 +4,56 @@ import './css/tab.css'
 
 const DirectorTab = () => {
 
-    const [directors, setDirectors] = useState([]);
-    const [loading, setLoading] = useState([true]);
+  const [directors, setDirectors] = useState([]);
+  const [loading, setLoading] = useState([true]);
 
-    useEffect(() => {
+  useEffect(() => {
 
-        const fetchDirectors = async () => {
-    
-          try {
-    
-            const response = await fetch("http://localhost:8080/api/directors");
-    
-            const data = await response.json();
-    
-            setDirectors(data);
-    
-          }
-    
-          catch (error) {
-    
-            console.error(error);
-    
-          }
-    
-        }
-    
-        fetchDirectors();
-    
-      }, [])
+    const fetchDirectors = async () => {
 
-    return (
+      try {
 
-        <>
+        const response = await fetch("http://localhost:8080/api/directors");
 
-            <h1>Movie Directors</h1>
+        const data = await response.json();
 
-            <div className="contentContainer">
+        setDirectors(data);
 
-                {
+      }
 
-                    directors.map((director, index) =>
+      catch (error) {
 
-                        <DirectorCard key={index} content={director} />
+        console.error(error);
 
-                    )}
+      }
 
-            </div>
+    }
 
-        </>
+    fetchDirectors();
 
-    )
+  }, [])
+
+  return (
+
+    <>
+
+      <h1>Movie Directors</h1>
+
+      <div className="contentContainer">
+
+        {
+
+          directors.map((director, index) =>
+
+            <DirectorCard key={index} content={director} />
+
+          )}
+
+      </div>
+
+    </>
+
+  )
 
 }
 

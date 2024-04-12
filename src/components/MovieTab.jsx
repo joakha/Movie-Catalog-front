@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import MovieCard from "./MovieCard";
 import './css/tab.css'
 
@@ -6,6 +6,8 @@ const MovieTab = () => {
 
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState([true]);
+
+  const searchDropdownRef = useRef(null);
 
   useEffect(() => {
 
@@ -67,6 +69,60 @@ const MovieTab = () => {
 
   }
 
+  const fetchMoviesBy = async (option, keyword) => {
+
+    try {
+
+      const response = await fetch(`http://localhost:8080/api/movies/findBy${option}/${keyword}`);
+
+      const data = await response.json();
+
+      setMovies(data);
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
+
+  const searchForMovies = async (event) => {
+
+    const option = searchDropdownRef.current.value;
+
+    const keyword = event.target.value;
+
+    if (keyword.trim() !== "") {
+
+      fetchMoviesBy(option, keyword);
+
+    }
+
+    else {
+
+      try {
+
+        const response = await fetch("http://localhost:8080/api/movies");
+
+        const data = await response.json();
+
+        setMovies(data);
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+      }
+
+    }
+
+  }
+
   return (
 
     <>
@@ -85,6 +141,21 @@ const MovieTab = () => {
           <option value="Most old">Most old</option>
 
         </select>
+
+      </div>
+
+      <div>
+
+        <label htmlFor="searchDropdown">Search by:
+          <select id="searchDropdown" ref={searchDropdownRef} defaultValue={"genre"}>
+
+            <option value="Genre">Genre</option>
+            <option value="Title">Title</option>
+
+          </select>
+        </label>
+
+        <input type="text" onChange={searchForMovies} />
 
       </div>
 

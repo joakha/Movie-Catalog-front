@@ -6,10 +6,10 @@ const ReviewCard = (props) => {
 
         <div className='card'>
 
-        <h2 className='card-title'>{props.content.movie.title}</h2>
+            <h2 className='card-title'>{props.content.movie.title}</h2>
 
-        <p>{props.content.score}</p>
-        <p>{props.content.comment}</p>
+            <p>{props.content.score}</p>
+            <p>{props.content.comment}</p>
 
         </div>
 

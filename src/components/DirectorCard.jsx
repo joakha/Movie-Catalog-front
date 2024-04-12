@@ -6,7 +6,7 @@ const DirectorCard = (props) => {
 
         <div className='card'>
 
-        <h2 className='card-title'>{props.content.name}</h2>
+            <h2 className='card-title'>{props.content.name}</h2>
 
         </div>
 
