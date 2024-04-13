@@ -8,12 +8,16 @@ const Home = () => {
 
       <h1>Welcome to my movie catalog!</h1>
 
-      <p className='infoParagraph'>Here you can view the movies I have watched,
-        see directors who directed them as well as look at the reviews I've given to the movies</p>
+      <div className='welcomeBox'>
 
-      <p className='infoParagraph'>You can also filter and search the information by different criteria</p>
+        <p className='infoParagraph'>Here you can view the movies I have watched,
+          see directors who directed them as well as look at the reviews I've given to the movies.</p>
 
-      <p className='infoParagraph'>Have fun!</p>
+        <p className='infoParagraph'>You can also filter and search the information by different criteria.</p>
+
+        <p className='infoParagraph'>Have fun!</p>
+
+      </div>
 
     </>
 

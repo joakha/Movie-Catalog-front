@@ -129,33 +129,40 @@ const MovieTab = () => {
 
       <h1>Movies I have Watched</h1>
 
-      <div>
+      <div className="searchBar">
 
-        <select onChange={sortMovies} defaultValue={"A-Z"}>
+        <div>
 
-          <option value="A-Z">A-Z</option>
-          <option value="Z-A">Z-A</option>
-          <option value="Longest">Longest</option>
-          <option value="Shortest">Shortest</option>
-          <option value="Most recent">Most recent</option>
-          <option value="Most old">Most old</option>
+          <label htmlFor="sortDropdown">Sort by:</label>
 
-        </select>
+          <select id="sortDropdown" onChange={sortMovies} defaultValue={"A-Z"}>
 
-      </div>
+            <option value="A-Z">A-Z</option>
+            <option value="Z-A">Z-A</option>
+            <option value="Longest">Longest</option>
+            <option value="Shortest">Shortest</option>
+            <option value="Most recent">Most recent</option>
+            <option value="Most old">Most old</option>
 
-      <div>
+          </select>
 
-        <label htmlFor="searchDropdown">Search by:
+        </div>
+
+        <div>
+
+          <label htmlFor="searchDropdown">Search by:</label>
+
           <select id="searchDropdown" ref={searchDropdownRef} defaultValue={"genre"}>
 
             <option value="Genre">Genre</option>
             <option value="Title">Title</option>
 
           </select>
-        </label>
 
-        <input type="text" onChange={searchForMovies} />
+
+          <input type="text" placeholder="Search movies..." onChange={searchForMovies} />
+
+        </div>
 
       </div>
 
