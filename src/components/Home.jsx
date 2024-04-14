@@ -1,4 +1,5 @@
 import './css/tab.css'
+import Picture from "./assets/Frontpage.jpg";
 
 const Home = () => {
 
@@ -6,7 +7,13 @@ const Home = () => {
 
     <>
 
-      <h1>Welcome to my movie catalog!</h1>
+      <header>
+
+        <h1>Welcome to my movie catalog!</h1>
+
+        <img src={Picture}/>
+
+      </header>
 
       <div className='welcomeBox'>
 

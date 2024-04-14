@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react"
 import MovieCard from "./MovieCard";
 import './css/tab.css'
+import { URL } from "./Constants";
+import Picture from "./assets/Popcorn.jpg";
 
 const MovieTab = () => {
 
@@ -15,11 +17,13 @@ const MovieTab = () => {
 
       try {
 
-        const response = await fetch("http://localhost:8080/api/movies");
+        const response = await fetch(URL + "/api/movies");
 
         const data = await response.json();
 
         setMovies(data);
+
+        setLoading(false);
 
       }
 
@@ -73,11 +77,13 @@ const MovieTab = () => {
 
     try {
 
-      const response = await fetch(`http://localhost:8080/api/movies/findBy${option}/${keyword}`);
+      const response = await fetch(URL + `/api/movies/findBy${option}/${keyword}`);
 
       const data = await response.json();
 
       setMovies(data);
+
+      setLoading(false);
 
     }
 
@@ -90,6 +96,8 @@ const MovieTab = () => {
   }
 
   const searchForMovies = async (event) => {
+
+    setLoading(true);
 
     const option = searchDropdownRef.current.value;
 
@@ -105,11 +113,13 @@ const MovieTab = () => {
 
       try {
 
-        const response = await fetch("http://localhost:8080/api/movies");
+        const response = await fetch(URL + "/api/movies");
 
         const data = await response.json();
 
         setMovies(data);
+
+        setLoading(false);
 
       }
 
@@ -127,7 +137,13 @@ const MovieTab = () => {
 
     <>
 
-      <h1>Movies I have Watched</h1>
+      <header>
+
+        <h1>Movies I have Watched</h1>
+
+        <img src={Picture} />
+
+      </header>
 
       <div className="searchBar">
 
@@ -159,24 +175,25 @@ const MovieTab = () => {
 
           </select>
 
-
           <input type="text" placeholder="Search movies..." onChange={searchForMovies} />
 
         </div>
 
       </div>
 
-      <div className="contentContainer">
+      {loading ? <p className="infoParagraph">Loading Movies...</p> :
 
-        {
+        <div className="contentContainer">
 
-          movies.map((movie, index) =>
+          {movies.map((movie, index) =>
 
             <MovieCard key={index} content={movie} />
 
           )}
 
-      </div>
+        </div>
+
+      }
 
     </>
 
