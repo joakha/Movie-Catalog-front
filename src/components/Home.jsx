@@ -22,7 +22,7 @@ const Home = () => {
 
         <p className='infoParagraph'>You can also filter and search the information by different criteria.</p>
 
-        <p className='infoParagraph'>Have fun!</p>
+        <p id='haveFunMessage' className='infoParagraph'>Have fun!</p>
 
       </div>
 

@@ -3,6 +3,7 @@ import MovieCard from "./MovieCard";
 import './css/tab.css'
 import { URL } from "./Constants";
 import Picture from "./assets/Popcorn.jpg";
+import {Button} from '@mui/material';
 
 const MovieTab = () => {
 
@@ -10,6 +11,7 @@ const MovieTab = () => {
   const [loading, setLoading] = useState([true]);
 
   const searchDropdownRef = useRef(null);
+  const inputFieldRef = useRef(null);
 
   useEffect(() => {
 
@@ -18,11 +20,8 @@ const MovieTab = () => {
       try {
 
         const response = await fetch(URL + "/api/movies");
-
         const data = await response.json();
-
         setMovies(data);
-
         setLoading(false);
 
       }
@@ -78,11 +77,8 @@ const MovieTab = () => {
     try {
 
       const response = await fetch(URL + `/api/movies/findBy${option}/${keyword}`);
-
       const data = await response.json();
-
       setMovies(data);
-
       setLoading(false);
 
     }
@@ -95,13 +91,11 @@ const MovieTab = () => {
 
   }
 
-  const searchForMovies = async (event) => {
+  const searchForMovies = async () => {
 
     setLoading(true);
-
     const option = searchDropdownRef.current.value;
-
-    const keyword = event.target.value;
+    const keyword = inputFieldRef.current.value;
 
     if (keyword.trim() !== "") {
 
@@ -114,11 +108,8 @@ const MovieTab = () => {
       try {
 
         const response = await fetch(URL + "/api/movies");
-
         const data = await response.json();
-
         setMovies(data);
-
         setLoading(false);
 
       }
@@ -140,7 +131,6 @@ const MovieTab = () => {
       <header>
 
         <h1>Movies I have Watched</h1>
-
         <img src={Picture} />
 
       </header>
@@ -150,7 +140,6 @@ const MovieTab = () => {
         <div>
 
           <label htmlFor="sortDropdown">Sort by:</label>
-
           <select id="sortDropdown" onChange={sortMovies} defaultValue={"A-Z"}>
 
             <option value="A-Z">A-Z</option>
@@ -167,7 +156,6 @@ const MovieTab = () => {
         <div>
 
           <label htmlFor="searchDropdown">Search by:</label>
-
           <select id="searchDropdown" ref={searchDropdownRef} defaultValue={"genre"}>
 
             <option value="Genre">Genre</option>
@@ -175,7 +163,8 @@ const MovieTab = () => {
 
           </select>
 
-          <input type="text" placeholder="Search movies..." onChange={searchForMovies} />
+          <input type="text" placeholder="Enter keyword" ref={inputFieldRef} />
+          <Button sx={{marginLeft: 1, marginBottom: 1}} variant="contained" onClick={searchForMovies}>Search</Button>
 
         </div>
 

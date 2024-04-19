@@ -3,6 +3,7 @@ import ReviewCard from "./ReviewCard";
 import './css/tab.css'
 import { URL } from "./Constants";
 import Picture from "./assets/Review.jpg";
+import {Button} from '@mui/material';
 
 const ReviewTab = () => {
 
@@ -10,6 +11,7 @@ const ReviewTab = () => {
   const [loading, setLoading] = useState([true]);
 
   const searchDropdownRef = useRef(null);
+  const inputFieldRef = useRef(null);
 
   useEffect(() => {
 
@@ -18,11 +20,8 @@ const ReviewTab = () => {
       try {
 
         const response = await fetch(URL + "/api/reviews");
-
         const data = await response.json();
-
         setReviews(data);
-
         setLoading(false);
 
       }
@@ -62,11 +61,8 @@ const ReviewTab = () => {
     try {
 
       const response = await fetch(URL + `/api/reviews/findBy${option}/${keyword}`);
-
       const data = await response.json();
-
       setReviews(data);
-
       setLoading(false);
 
     }
@@ -79,13 +75,11 @@ const ReviewTab = () => {
 
   }
 
-  const searchForReviews = async (event) => {
+  const searchForReviews = async () => {
 
     setLoading(true);
-
     const option = searchDropdownRef.current.value;
-
-    const keyword = event.target.value;
+    const keyword = inputFieldRef.current.value;
 
     if (keyword.trim() !== "") {
 
@@ -98,11 +92,8 @@ const ReviewTab = () => {
       try {
 
         const response = await fetch(URL + "/api/reviews");
-
         const data = await response.json();
-
         setReviews(data);
-
         setLoading(false);
 
       }
@@ -124,7 +115,6 @@ const ReviewTab = () => {
       <header>
 
         <h1>My Movie Reviews</h1>
-
         <img src={Picture} />
 
       </header>
@@ -134,7 +124,6 @@ const ReviewTab = () => {
         <div>
 
           <label htmlFor="sortDropdown">Sort by:</label>
-
           <select id="sortDropdown" onChange={sortReviews} defaultValue={"Highest Score"}>
 
             <option value="Highest Score">Highest Score</option>
@@ -147,14 +136,14 @@ const ReviewTab = () => {
         <div>
 
           <label htmlFor="searchDropdown">Search by:</label>
-
           <select id="searchDropdown" ref={searchDropdownRef} defaultValue={"Score"}>
 
             <option value="Score">Score</option>
 
           </select>
 
-          <input type="text" placeholder="Search reviews..." onChange={searchForReviews} />
+          <input type="text" placeholder="Enter keyword..." ref={inputFieldRef}/>
+          <Button sx={{marginLeft: 1, marginBottom: 1}} variant="contained" onClick={searchForReviews}>Search</Button>
 
         </div>
 

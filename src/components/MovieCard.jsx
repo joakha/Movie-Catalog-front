@@ -8,10 +8,10 @@ const MovieCard = (props) => {
 
             <h2 className='card-title'>{props.content.title}</h2>
 
-            <p>Released: {props.content.releaseYear}</p>
-            <p>Genre: {props.content.genre}</p>
-            <p>Directed by: {props.content.director.name}</p>
-            <p>Length: {props.content.length} minutes</p>
+            <p><span>Released:</span> {props.content.releaseYear}</p>
+            <p><span>Genre:</span> {props.content.genre}</p>
+            <p><span>Directed by:</span> {props.content.director.name}</p>
+            <p><span>Length:</span> {props.content.length} minutes</p>
 
         </div>
 

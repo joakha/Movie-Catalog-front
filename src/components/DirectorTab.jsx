@@ -3,6 +3,7 @@ import DirectorCard from "./DirectorCard";
 import './css/tab.css'
 import { URL } from "./Constants";
 import Picture from "./assets/Director.png";
+import {Button} from '@mui/material';
 
 const DirectorTab = () => {
 
@@ -10,6 +11,7 @@ const DirectorTab = () => {
   const [loading, setLoading] = useState([true]);
 
   const searchDropdownRef = useRef(null);
+  const inputFieldRef = useRef(null);
 
   useEffect(() => {
 
@@ -18,11 +20,8 @@ const DirectorTab = () => {
       try {
 
         const response = await fetch(URL + "/api/directors");
-
         const data = await response.json();
-
         setDirectors(data);
-
         setLoading(false);
 
       }
@@ -62,11 +61,8 @@ const DirectorTab = () => {
     try {
 
       const response = await fetch(URL + `/api/directors/findBy${option}/${keyword}`);
-
       const data = await response.json();
-
       setDirectors(data);
-
       setLoading(false);
 
     }
@@ -79,13 +75,11 @@ const DirectorTab = () => {
 
   }
 
-  const searchForDirectors = async (event) => {
+  const searchForDirectors = async () => {
 
     setLoading(true);
-
     const option = searchDropdownRef.current.value;
-
-    const keyword = event.target.value;
+    const keyword = inputFieldRef.current.value;
 
     if (keyword.trim() !== "") {
 
@@ -98,11 +92,8 @@ const DirectorTab = () => {
       try {
 
         const response = await fetch(URL + "/api/directors");
-
         const data = await response.json();
-
         setDirectors(data);
-
         setLoading(false);
 
       }
@@ -124,7 +115,6 @@ const DirectorTab = () => {
       <header>
 
         <h1>Movie Directors</h1>
-
         <img src={Picture}/>
 
       </header>
@@ -134,7 +124,6 @@ const DirectorTab = () => {
         <div>
 
           <label htmlFor="sortDropdown">Sort by:</label>
-
           <select id="sortDropdown" onChange={sortDirectors} defaultValue={"A-Z"}>
 
             <option value="A-Z">A-Z</option>
@@ -147,14 +136,14 @@ const DirectorTab = () => {
         <div>
 
           <label htmlFor="searchDropdown">Search by:</label>
-
           <select id="searchDropdown" ref={searchDropdownRef}>
 
             <option value="Name">Name</option>
 
           </select>
 
-          <input type="text" placeholder="Search directors..." onChange={searchForDirectors} />
+          <input type="text" placeholder="Enter keyword..." ref={inputFieldRef}/>
+          <Button sx={{marginLeft: 1, marginBottom: 1}} variant="contained" onClick={searchForDirectors}>Search</Button>
 
         </div>
 

@@ -16,7 +16,7 @@
 h2 {
 
     margin-top: 60px;
-    color: whitesmoke;
+    color: rgb(136, 212, 247);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 
 
@@ -26,5 +26,12 @@ p {
 
     margin-top: 25px;
     color: rgb(218, 211, 211);
+
+}
+
+#movielistHeader {
+
+    color: rgb(132, 240, 181);
+    font-size: 30px;
 
 }

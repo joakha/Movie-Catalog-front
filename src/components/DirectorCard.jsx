@@ -8,7 +8,7 @@ const DirectorCard = (props) => {
 
             <h2 className='card-title'>{props.content.name}</h2>
 
-            <p>Movies:</p>
+            <p id='movielistHeader'>Movies:</p>
 
             {props.content.movies.map((movie, index) => {
 
