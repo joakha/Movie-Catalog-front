@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 function App() {
 
-  const [tab, setValue] = useState("2");
+  const [tab, setValue] = useState("1");
 
   const changeTab = (event, newValue) => {
 
