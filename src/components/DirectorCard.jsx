@@ -14,7 +14,7 @@ const DirectorCard = (props) => {
 
                 return (
 
-                    <p key={index}>{movie.title}</p>
+                    <p key={index}>{movie.title} {movie.releaseYear}</p>
 
                 )
 
