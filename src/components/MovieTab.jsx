@@ -3,12 +3,13 @@ import MovieCard from "./MovieCard";
 import './css/tab.css'
 import { URL } from "./Constants";
 import Picture from "./assets/Popcorn.jpg";
-import {Button} from '@mui/material';
+import { Button } from '@mui/material';
 
 const MovieTab = () => {
 
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState([true]);
+  const [searching, setSearching] = useState(false);
 
   const searchDropdownRef = useRef(null);
   const inputFieldRef = useRef(null);
@@ -37,6 +38,26 @@ const MovieTab = () => {
     fetchMovies();
 
   }, [])
+
+  const undoSearch = async () => {
+
+    try {
+
+      setSearching(false);
+      const response = await fetch(URL + "/api/movies");
+      const data = await response.json();
+      setMovies(data);
+      setLoading(false);
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
 
   const sortMovies = (event) => {
 
@@ -94,6 +115,7 @@ const MovieTab = () => {
   const searchForMovies = async () => {
 
     setLoading(true);
+    setSearching(true);
     const option = searchDropdownRef.current.value;
     const keyword = inputFieldRef.current.value;
 
@@ -107,6 +129,7 @@ const MovieTab = () => {
 
       try {
 
+        setSearching(false);
         const response = await fetch(URL + "/api/movies");
         const data = await response.json();
         setMovies(data);
@@ -164,9 +187,17 @@ const MovieTab = () => {
           </select>
 
           <input type="text" placeholder="Enter keyword" ref={inputFieldRef} />
-          <Button sx={{marginLeft: 1, marginBottom: 1}} variant="contained" onClick={searchForMovies}>Search</Button>
+          <Button sx={{ marginLeft: 1, marginBottom: 1 }} variant="contained" onClick={searchForMovies}>Search</Button>
 
         </div>
+
+        {searching &&
+
+          <div className="undo">
+            <span>Searching with a keyword</span>
+            <Button sx={{ marginLeft: 1, marginBottom: 1 }} variant="contained" onClick={undoSearch}>Undo</Button>
+          </div>
+        }
 
       </div>
 

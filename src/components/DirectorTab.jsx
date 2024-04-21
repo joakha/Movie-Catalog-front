@@ -3,12 +3,13 @@ import DirectorCard from "./DirectorCard";
 import './css/tab.css'
 import { URL } from "./Constants";
 import Picture from "./assets/Director.png";
-import {Button} from '@mui/material';
+import { Button } from '@mui/material';
 
 const DirectorTab = () => {
 
   const [directors, setDirectors] = useState([]);
   const [loading, setLoading] = useState([true]);
+  const [searching, setSearching] = useState(false);
 
   const searchDropdownRef = useRef(null);
   const inputFieldRef = useRef(null);
@@ -37,6 +38,26 @@ const DirectorTab = () => {
     fetchDirectors();
 
   }, [])
+
+  const undoSearch = async () => {
+
+    try {
+
+      setSearching(false);
+      const response = await fetch(URL + "/api/directors");
+      const data = await response.json();
+      setDirectors(data);
+      setLoading(false);
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
 
   const sortDirectors = (event) => {
 
@@ -78,6 +99,7 @@ const DirectorTab = () => {
   const searchForDirectors = async () => {
 
     setLoading(true);
+    setSearching(true);
     const option = searchDropdownRef.current.value;
     const keyword = inputFieldRef.current.value;
 
@@ -91,6 +113,7 @@ const DirectorTab = () => {
 
       try {
 
+        setSearching(false);
         const response = await fetch(URL + "/api/directors");
         const data = await response.json();
         setDirectors(data);
@@ -115,7 +138,7 @@ const DirectorTab = () => {
       <header>
 
         <h1>Movie Directors</h1>
-        <img src={Picture}/>
+        <img src={Picture} />
 
       </header>
 
@@ -142,10 +165,18 @@ const DirectorTab = () => {
 
           </select>
 
-          <input type="text" placeholder="Enter keyword..." ref={inputFieldRef}/>
-          <Button sx={{marginLeft: 1, marginBottom: 1}} variant="contained" onClick={searchForDirectors}>Search</Button>
+          <input type="text" placeholder="Enter keyword..." ref={inputFieldRef} />
+          <Button sx={{ marginLeft: 1, marginBottom: 1 }} variant="contained" onClick={searchForDirectors}>Search</Button>
 
         </div>
+
+        {searching &&
+
+          <div className="undo">
+            <span>Searching with a keyword</span>
+            <Button sx={{ marginLeft: 1, marginBottom: 1 }} variant="contained" onClick={undoSearch}>Undo</Button>
+          </div>
+        }
 
       </div>
 

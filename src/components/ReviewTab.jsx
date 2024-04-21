@@ -3,12 +3,13 @@ import ReviewCard from "./ReviewCard";
 import './css/tab.css'
 import { URL } from "./Constants";
 import Picture from "./assets/Review.jpg";
-import {Button} from '@mui/material';
+import { Button } from '@mui/material';
 
 const ReviewTab = () => {
 
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState([true]);
+  const [searching, setSearching] = useState(false);
 
   const searchDropdownRef = useRef(null);
   const inputFieldRef = useRef(null);
@@ -37,6 +38,26 @@ const ReviewTab = () => {
     fetchReviews();
 
   }, [])
+
+  const undoSearch = async () => {
+
+    try {
+
+      setSearching(false);
+      const response = await fetch(URL + "/api/reviews");
+      const data = await response.json();
+      setReviews(data);
+      setLoading(false);
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
 
   const sortReviews = (event) => {
 
@@ -78,6 +99,7 @@ const ReviewTab = () => {
   const searchForReviews = async () => {
 
     setLoading(true);
+    setSearching(true);
     const option = searchDropdownRef.current.value;
     const keyword = inputFieldRef.current.value;
 
@@ -91,6 +113,7 @@ const ReviewTab = () => {
 
       try {
 
+        setSearching(false);
         const response = await fetch(URL + "/api/reviews");
         const data = await response.json();
         setReviews(data);
@@ -142,10 +165,18 @@ const ReviewTab = () => {
 
           </select>
 
-          <input type="text" placeholder="Enter keyword..." ref={inputFieldRef}/>
-          <Button sx={{marginLeft: 1, marginBottom: 1}} variant="contained" onClick={searchForReviews}>Search</Button>
+          <input type="text" placeholder="Enter keyword..." ref={inputFieldRef} />
+          <Button sx={{ marginLeft: 1, marginBottom: 1 }} variant="contained" onClick={searchForReviews}>Search</Button>
 
         </div>
+
+        {searching &&
+
+          <div className="undo">
+            <span>Searching with a keyword</span>
+            <Button sx={{ marginLeft: 1, marginBottom: 1 }} variant="contained" onClick={undoSearch}>Undo</Button>
+          </div>
+        }
 
       </div>
 
